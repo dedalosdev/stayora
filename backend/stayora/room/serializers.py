@@ -1,7 +1,8 @@
-from rest_framework import serializers
-from .models import Room, OccupiedDate,RoomImage
-from .models import User
+from django.contrib.auth.hashers import make_password
 
+from rest_framework import serializers
+
+from .models import Room, OccupiedDate,RoomImage, User
 
 class RoomImageSerializer(serializers.ModelSerializer):
     
@@ -46,12 +47,10 @@ class RoomSerializer(serializers.HyperlinkedModelSerializer):
 
 
 
-from django.contrib.auth.hashers import make_password
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['url', 'id', 'username','password','email','full_name']
-
       # Hash the password before saving     
     def validate_password(self, value):
         return make_password(value)

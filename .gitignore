@@ -147,4 +147,8 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
 ./media/room_images/
+
+# compiled python files
+*.pyc
