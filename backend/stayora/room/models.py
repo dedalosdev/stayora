@@ -21,7 +21,8 @@ class Room(models.Model):
         
     class Meta:
         db_table = "room"
-    
+        verbose_name = "Room"
+        verbose_name_plural = "Rooms"    
     
     def __str__(self):
         return f"{self.name} ({self.type})"
@@ -34,6 +35,8 @@ class RoomImage(models.Model):
 
     class Meta:
         db_table = "room_image"
+        verbose_name = "RoomImage"
+        verbose_name_plural = "RoomImaged"
     
     def __str__(self):
         return f"Image for {self.room.name} - {self.caption or 'No Caption'}"
@@ -43,9 +46,10 @@ class OccupiedDate(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='occupiedDates')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='booked_dates')
     date = models.DateField()
-
     class Meta:
         db_table = "occupied_date"
+        verbose_name = "OccupiedDate"
+        verbose_name_plural = "OccupiedDates"
 
     def __str__(self):
         return f"{self.date} - {self.room.name} booked by {self.user.username}"
