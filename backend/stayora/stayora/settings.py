@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 import os
-import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,14 +80,24 @@ WSGI_APPLICATION = 'stayora.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {}
-
-database_url = os.environ.get("DATABASE_URL")
-
-if database_url is not None:
-    DATABASES['default'] = dj_database_url.parse(database_url)
+if os.getenv('DB_ENGINE') != "local":
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DB_ENGINE'),
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+        }
+    }
 else:
-    DATABASES['default'] = dj_database_url.config(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
